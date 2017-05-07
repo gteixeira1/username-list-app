@@ -27,6 +27,7 @@ public class RestrictedWordRepositoryTest {
     private final String invalidWord = "invalid";
     private final String selectAll = "SELECT WORD FROM RESTRICTED_WORDS";
     private final String selectByWord = "SELECT WORD FROM RESTRICTED_WORDS WHERE WORD = ?";
+    private final String insertRestrictedWord = "INSERT INTO RESTRICTED_WORDS (WORD) VALUES (?)";;
 
     @Before
     public void setUp() throws Exception {
@@ -48,17 +49,26 @@ public class RestrictedWordRepositoryTest {
     }
 
     @Test
-    public void shoutReturnUserNameList_WhenUserExistOnDatabase() throws Exception {
+    public void shouldReturnUserNameList_WhenUserExistOnDatabase() throws Exception {
         when(jdbcTemplate.queryForList(selectByWord, String.class, validWord)).thenReturn(dbList);
         List<String> result = restrictedWordRepository.findRestrictedWordByWord(validWord);
         assertTrue(result.size() == 1);
     }
 
     @Test
-    public void shoutReturnUserNameList_WhenUserDoesNotExistOnDatabase() throws Exception {
+    public void shouldReturnUserNameList_WhenUserDoesNotExistOnDatabase() throws Exception {
         when(jdbcTemplate.queryForList(selectByWord, String.class, invalidWord)).thenReturn(new ArrayList<String>());
         List<String> result = restrictedWordRepository.findRestrictedWordByWord(invalidWord);
         assertTrue(result.size() == 0);
+    }
+
+    @Test
+    public void shouldInsertRestrictedWordList(){
+        List<String> restrictedWordList = new ArrayList<String>();
+        restrictedWordList.add(validWord);
+        when(jdbcTemplate.update(insertRestrictedWord, validWord)).thenReturn(1);
+        int result = restrictedWordRepository.insertRestricedWordList(restrictedWordList);
+        assertEquals(result, 1);
     }
 
     private void buildLists(){
