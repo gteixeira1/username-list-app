@@ -9,9 +9,9 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserListRepository {
+public class UsernameListRepository {
 
-    private static final Log LOG = LogFactory.getLog(UserListRepository.class);
+    private static final Log LOG = LogFactory.getLog(UsernameListRepository.class);
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
