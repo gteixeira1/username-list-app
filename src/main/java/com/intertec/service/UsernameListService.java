@@ -1,5 +1,6 @@
 package com.intertec.service;
 
+import com.intertec.domain.entity.UsernameResponseEntity;
 import com.intertec.domain.repository.RestrictedWordRepository;
 import com.intertec.domain.repository.UsernameListRepository;
 import com.intertec.util.UsernameUtil;
@@ -23,12 +24,14 @@ public class UsernameListService {
     @Autowired
     private RestrictedWordRepository restrictedWordRepository;
 
+    private UsernameResponseEntity response;
+
     private List<String> userList;
     private List<String> restrictedWords;
 
-    public String searchUsername(String username) {
+    public UsernameResponseEntity searchUsername(String username) {
         username = StringUtils.trim(username);
-        Boolean userExists = false;
+        response = new UsernameResponseEntity(false, new ArrayList<String>());
 
         LOG.info(String.format("Searching username '%s' into the repository", username));
         userList = usernameListRepository.findUserByUsername(username);
@@ -39,15 +42,17 @@ public class UsernameListService {
         if(restrictedWords.contains(username)){
             LOG.info(String.format("Username '%s'contains a not allowed word", username));
             List<String> validUsernames = generateRandomUsernameList();
-            return "Invalid username (word not allowed) -" + validUsernames.toString();
+            response.setUsernameList(validUsernames);
+
         } else if (username.length() < UsernameUtil.USERNAME_MIN_LENGTH || userList.size() != 0) {
             LOG.info(String.format("Invalid username: %s", username));
             List<String> validUsernames = generateValidUsernameList(username);
-            return "Invalid username - " + validUsernames;
+            response.setUsernameList(validUsernames);
         } else {
-            return "Valid username";
+            response.setValidUsername(true);
         }
 
+        return response;
     }
 
     private List<String> generateValidUsernameList(String username){

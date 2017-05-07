@@ -1,5 +1,6 @@
 package com.intertec.service;
 
+import com.intertec.domain.entity.UsernameResponseEntity;
 import com.intertec.domain.repository.RestrictedWordRepository;
 import com.intertec.domain.repository.UsernameListRepository;
 import org.junit.Before;
@@ -24,6 +25,9 @@ public class UsernameListServiceTest {
     private UsernameListRepository usernameListRepository;
     @Mock
     private RestrictedWordRepository restrictedWordRepository;
+
+    private UsernameResponseEntity usernameResponseEntity;
+
     private List<String> userList;
     private List<String> restrictedWords;
 
@@ -39,24 +43,28 @@ public class UsernameListServiceTest {
         when(usernameListRepository.findUserByUsername(invalidUsername)).thenReturn(new ArrayList<String>());
         when(usernameListRepository.getAllUsernameList()).thenReturn(userList);
         when(restrictedWordRepository.getAllRestrictedWords()).thenReturn(restrictedWords);
+        usernameResponseEntity = new UsernameResponseEntity(false, new ArrayList<String>());
     }
 
     @Test
     public void shouldReturnTrue_WhenUsernameIsValid() throws Exception {
-        String result = usernameListService.searchUsername(validUsername);
-        assertEquals(result,"Valid username");
+        UsernameResponseEntity result = usernameListService.searchUsername(validUsername);
+        assertEquals(result.getValidUsername(),true);
+        assertTrue(result.getUsernameList().size() == 0);
     }
 
     @Test
     public void shouldReturnFalse_WhenUsernameIsInvalid() throws Exception {
-        String result = usernameListService.searchUsername(repeatedUsername);
-        assertTrue(result.contains("Invalid username - "));
+        UsernameResponseEntity result = usernameListService.searchUsername(repeatedUsername);
+        assertEquals(result.getValidUsername(),false);
+        assertTrue(result.getUsernameList().size() > 0);
     }
 
     @Test
     public void shouldReturnFalse_WhenUsernameHasRestrictedWord() throws Exception {
-        String result = usernameListService.searchUsername(invalidUsername);
-        assertTrue(result.contains("Invalid username (word not allowed) -"));
+        UsernameResponseEntity result = usernameListService.searchUsername(invalidUsername);
+        assertEquals(result.getValidUsername(),false);
+        assertTrue(result.getUsernameList().size() > 0);
     }
 
     private void builLists(){
