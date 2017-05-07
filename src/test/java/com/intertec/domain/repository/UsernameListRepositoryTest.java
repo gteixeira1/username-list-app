@@ -50,14 +50,14 @@ public class UsernameListRepositoryTest {
     @Test
     public void shoutReturnUserNameList_WhenUserExistOnDatabase() throws Exception {
         when(jdbcTemplate.queryForList(selectByUsername, String.class, validUser)).thenReturn(dbList);
-        List<String> result = usernameListRepository.findUserByUsername(validUser);
+        List<String> result = usernameListRepository.findByUsername(validUser);
         assertTrue(result.size() == 1);
     }
 
     @Test
     public void shoutReturnUserNameList_WhenUserDoesNotExistOnDatabase() throws Exception {
         when(jdbcTemplate.queryForList(selectByUsername, String.class, invalidUser)).thenReturn(new ArrayList<String>());
-        List<String> result = usernameListRepository.findUserByUsername(invalidUser);
+        List<String> result = usernameListRepository.findByUsername(invalidUser);
         assertTrue(result.size() == 0);
     }
 

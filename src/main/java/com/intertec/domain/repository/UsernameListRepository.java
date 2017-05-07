@@ -23,7 +23,7 @@ public class UsernameListRepository {
         return result;
     }
 
-    public List<String> findUserByUsername(String username){
+    public List<String> findByUsername(String username){
         String select = String.format("SELECT USERNAME FROM USER_LIST WHERE USERNAME = ?");
         List<String> result = jdbcTemplate.queryForList(select, String.class, username);
 

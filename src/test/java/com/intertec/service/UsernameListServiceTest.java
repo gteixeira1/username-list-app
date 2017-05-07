@@ -38,9 +38,9 @@ public class UsernameListServiceTest {
     @Before
     public void setUp() throws Exception {
         builLists();
-        when(usernameListRepository.findUserByUsername(validUsername)).thenReturn(new ArrayList<String>());
-        when(usernameListRepository.findUserByUsername(repeatedUsername)).thenReturn(userList);
-        when(usernameListRepository.findUserByUsername(invalidUsername)).thenReturn(new ArrayList<String>());
+        when(usernameListRepository.findByUsername(validUsername)).thenReturn(new ArrayList<String>());
+        when(usernameListRepository.findByUsername(repeatedUsername)).thenReturn(userList);
+        when(usernameListRepository.findByUsername(invalidUsername)).thenReturn(new ArrayList<String>());
         when(usernameListRepository.getAllUsernameList()).thenReturn(userList);
         when(restrictedWordRepository.getAllRestrictedWords()).thenReturn(restrictedWords);
         usernameResponseEntity = new UsernameResponseEntity(false, new ArrayList<String>());

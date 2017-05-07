@@ -34,7 +34,7 @@ public class UsernameListService {
         response = new UsernameResponseEntity(false, new ArrayList<String>());
 
         LOG.info(String.format("Searching username '%s' into the repository", username));
-        userList = usernameListRepository.findUserByUsername(username);
+        userList = usernameListRepository.findByUsername(username);
 
         LOG.info("Retrieving restricted words from repository");
         restrictedWords = restrictedWordRepository.getAllRestrictedWords();
@@ -43,7 +43,6 @@ public class UsernameListService {
             LOG.info(String.format("Username '%s'contains a not allowed word", username));
             List<String> validUsernames = generateRandomUsernameList();
             response.setUsernameList(validUsernames);
-
         } else if (username.length() < UsernameUtil.USERNAME_MIN_LENGTH || userList.size() != 0) {
             LOG.info(String.format("Invalid username: %s", username));
             List<String> validUsernames = generateValidUsernameList(username);
