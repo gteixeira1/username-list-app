@@ -17,14 +17,14 @@ public class UsernameListRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<String> getAllUsernameList(){
-        String select = "SELECT USERNAME FROM USER_LIST";
+        String select = "SELECT USERNAME FROM USERNAME_LIST";
         List<String> result = jdbcTemplate.queryForList(select, String.class);
 
         return result;
     }
 
     public List<String> findByUsername(String username){
-        String select = String.format("SELECT USERNAME FROM USER_LIST WHERE USERNAME = ?");
+        String select = String.format("SELECT USERNAME FROM USERNAME_LIST WHERE USERNAME = ?");
         List<String> result = jdbcTemplate.queryForList(select, String.class, username);
 
         return result;

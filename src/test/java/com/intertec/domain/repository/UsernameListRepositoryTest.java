@@ -25,8 +25,8 @@ public class UsernameListRepositoryTest {
     private List<String> dbList;
     private final String validUser = "valid";
     private final String invalidUser = "invalid";
-    private final String selectAll = "SELECT USERNAME FROM USER_LIST";
-    private final String selectByUsername = "SELECT USERNAME FROM USER_LIST WHERE USERNAME = ?";
+    private final String selectAll = "SELECT USERNAME FROM USERNAME_LIST";
+    private final String selectByUsername = "SELECT USERNAME FROM USERNAME_LIST WHERE USERNAME = ?";
 
     @Before
     public void setUp() throws Exception {
