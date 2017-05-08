@@ -16,9 +16,9 @@ public class RestrictedWordService {
     @Autowired
     private RestrictedWordRepository restrictedWordRepository;
 
-    public String saveRestrictedWord(List<String> restrictedWordList){
+    public int saveRestrictedWord(List<String> restrictedWordList){
         LOG.info("Starting restricted word insertion");
         int result = restrictedWordRepository.insertRestricedWordList(restrictedWordList);
-        return String.format("Restricted words inserted: %s", result);
+        return result;
     }
 }

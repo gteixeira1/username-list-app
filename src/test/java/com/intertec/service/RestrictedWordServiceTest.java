@@ -33,8 +33,8 @@ public class RestrictedWordServiceTest {
 
     @Test
     public void shouldInsertRestrictedWord() throws Exception {
-        String result = restrictedWordService.saveRestrictedWord(restrictedWordList);
-        assertEquals(result, "Restricted words inserted: 1");
+        int result = restrictedWordService.saveRestrictedWord(restrictedWordList);
+        assertEquals(result, 1);
     }
 
 }

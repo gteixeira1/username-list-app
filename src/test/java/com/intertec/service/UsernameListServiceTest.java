@@ -3,6 +3,7 @@ package com.intertec.service;
 import com.intertec.domain.entity.UsernameResponseEntity;
 import com.intertec.domain.repository.RestrictedWordRepository;
 import com.intertec.domain.repository.UsernameListRepository;
+import com.intertec.exception.InvalidInputDataException;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +34,8 @@ public class UsernameListServiceTest {
 
     private final String validUsername = "MrJohn99";
     private final String repeatedUsername = "MrJohn";
-    private final String invalidUsername = "grass";
+    private final String invalidUsername = "Johngrass";
+    private final String shortUsername = "John";
 
     @Before
     public void setUp() throws Exception {
@@ -65,6 +67,11 @@ public class UsernameListServiceTest {
         UsernameResponseEntity result = usernameListService.searchUsername(invalidUsername);
         assertEquals(result.getValidUsername(),false);
         assertTrue(result.getUsernameList().size() > 0);
+    }
+
+    @Test(expected = InvalidInputDataException.class)
+    public void shouldThrowExceptionFalse_WhenUsernameHasRestrictedWord() throws Exception {
+        UsernameResponseEntity result = usernameListService.searchUsername(shortUsername);
     }
 
     private void builLists(){

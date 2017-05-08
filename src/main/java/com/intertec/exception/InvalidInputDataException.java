@@ -1,7 +1,11 @@
 package com.intertec.exception;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.text.MessageFormat;
 
+@ResponseStatus(value= HttpStatus.BAD_REQUEST, reason="Invalid input data")
 public class InvalidInputDataException extends RuntimeException {
 
     public InvalidInputDataException(String message) {

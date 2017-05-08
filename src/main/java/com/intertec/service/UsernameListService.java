@@ -3,6 +3,7 @@ package com.intertec.service;
 import com.intertec.domain.entity.UsernameResponseEntity;
 import com.intertec.domain.repository.RestrictedWordRepository;
 import com.intertec.domain.repository.UsernameListRepository;
+import com.intertec.exception.InvalidInputDataException;
 import com.intertec.util.UsernameUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
@@ -39,11 +40,17 @@ public class UsernameListService {
         LOG.info("Retrieving restricted words from repository");
         restrictedWords = restrictedWordRepository.getAllRestrictedWords();
 
-        if(restrictedWords.contains(username)){
-            LOG.info(String.format("Username '%s'contains a not allowed word", username));
+        if (username.length() < UsernameUtil.USERNAME_MIN_LENGTH) {
+            LOG.error(String.format("Username '%s' length is less than accepted", username));
+            throw new InvalidInputDataException(
+                    String.format("Username '%s' provided has less than the required length (%s)",
+                            username, UsernameUtil.USERNAME_MIN_LENGTH
+                    ));
+        } else if(hasRestrictedWord(username)){
+            LOG.info(String.format("Username '%s'contains a not allowed word/expression", username));
             List<String> validUsernames = generateRandomUsernameList();
             response.setUsernameList(validUsernames);
-        } else if (username.length() < UsernameUtil.USERNAME_MIN_LENGTH || userList.size() != 0) {
+        }  else if (userList.size() != 0) {
             LOG.info(String.format("Invalid username: %s", username));
             List<String> validUsernames = generateValidUsernameList(username);
             response.setUsernameList(validUsernames);
@@ -111,5 +118,15 @@ public class UsernameListService {
         LOG.info(String.format("Username generated: %s", generatedUsername));
         return generatedUsername.toString();
     }
+
+    private boolean hasRestrictedWord(String username){
+        for(String word: restrictedWords){
+            if(username.contains(word)){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
 }

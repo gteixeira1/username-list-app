@@ -22,6 +22,7 @@ public class RestrictedWordController {
     @ResponseBody
     public ResponseEntity<?> saveRestrictedWord(@RequestBody final List<String> restrictedWordList){
         LOG.info(String.format("Processing username: %s", restrictedWordList));
-        return ResponseEntity.ok(restrictedWordService.saveRestrictedWord(restrictedWordList));
+        int result = restrictedWordService.saveRestrictedWord(restrictedWordList);
+        return ResponseEntity.ok(String.format("Restricted words inserted: %s", result));
     }
 }
