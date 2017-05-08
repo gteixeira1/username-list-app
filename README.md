@@ -45,7 +45,7 @@ The application also allow insert new restricted words if necessary.
 
 ### Application Endpoints
 ##### Validate Username
-- Endpoint which get the username from user and validated it
+- Endpoint which get the username from and validated it
 - URL: http://localhost:8080/username-list-app/v1/validate-username?username=TestUsername
 - Method: GET
 - URI Parameters: username (required)
